@@ -13,7 +13,7 @@ using std::vector;
 
 std::string ToMb(std::string data){
     float mb = std::stoi(data) / 1000.0;
-    std::string mb_string = std::to_string(mb);
+    std::string mb_string = std::to_string(static_cast<int>(mb));
     return mb_string;
 }
 
@@ -26,7 +26,9 @@ Process::Process(int pid) : pid_(pid)
 int Process::Pid() { return pid_; }
 
 // TODO: Return this process's CPU utilization
-float Process::CpuUtilization() { return 0; }
+float Process::CpuUtilization() {
+    return (LinuxParser::ActiveJiffies(pid_) / sysconf(_SC_CLK_TCK)) / static_cast<float>(UpTime());
+}
 
 // TODO: Return the command that generated this process
 string Process::Command() { return LinuxParser::Command(pid_); }
@@ -44,4 +46,6 @@ long int Process::UpTime() { return LinuxParser::UpTime(pid_); }
 
 // TODO: Overload the "less than" comparison operator for Process objects
 // REMOVE: [[maybe_unused]] once you define the function
-bool Process::operator<(Process const& a[[maybe_unused]]) const { return true; }
+bool Process::operator<(Process& a){
+    return a.CpuUtilization() < CpuUtilization();
+}
