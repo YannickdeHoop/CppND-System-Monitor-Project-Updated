@@ -1,7 +1,6 @@
 #include "format.h"
 
-#include <cmath>
-#include <iostream>
+#include <iomanip>
 #include <string>
 
 constexpr int HOUR = 3600;
@@ -12,7 +11,11 @@ std::string Format::ElapsedTime(long seconds) {
   int seconds_left = seconds % HOUR;
   int minute = seconds_left / MIN;
   int second = seconds_left % MIN;
-  std::string string = std::to_string(hour) + ":" + std::to_string(minute) +
-                       ":" + std::to_string(second);
-  return string;
+
+  std::stringstream ss;
+  ss << std::setfill('0') << std::setw(2) << hour << ":";
+  ss << std::setfill('0') << std::setw(2) << minute << ":";
+  ss << std::setfill('0') << std::setw(2) << second;
+
+  return ss.str();
 }
