@@ -28,19 +28,6 @@ std::string OperatingSystem();
 std::string Kernel();
 std::map<std::string, std::string> GetUIDUserMap();
 
-// CPU
-enum CPUStates {
-  kUser_ = 0,
-  kNice_,
-  kSystem_,
-  kIdle_,
-  kIOwait_,
-  kIRQ_,
-  kSoftIRQ_,
-  kSteal_,
-  kGuest_,
-  kGuestNice_
-};
 float CpuUtilization();
 long Jiffies();
 long ActiveJiffies();
@@ -54,6 +41,6 @@ std::string Ram(int pid);
 std::string User(int pid);
 long int UpTime(int pid);
 
-};  // namespace LinuxParser
+}  // namespace LinuxParser
 
 #endif
